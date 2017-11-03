@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import List from './List.js'
+//.. will take you up to sections.
+import List from '../List'
 
 class App extends Component {
   constructor(props){
@@ -16,12 +17,23 @@ class App extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
+
     this.setState({
       term:"",
-      items:[...this.state.items,this.state.term]
+      items:[...this.state.items,{toDo: this.state.term,complete: false}]
   })
   }
 
+onComplete = (i) => {
+  this.setState(prevState => ({
+    items:[...prevState.items.slice(0,i),
+    {toDo:prevState.items[i].toDo,
+    complete:!prevState.items[i].complete
+  },
+    ...prevState.items.slice(i+1)
+  ]
+  }));
+}
   render() {
 
     return (
@@ -33,7 +45,8 @@ class App extends Component {
         />
         <button type="submit">To Do List</button>
       </form>
-      <List items = {this.state.items}/>
+      <List items = {this.state.items}
+        onComplete = {this.onComplete}/>
     </div>
     )
   }
