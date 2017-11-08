@@ -1,5 +1,5 @@
 import React from 'react';
-
+ 
 const staticStyle = {padding:'10px'}
 const List = (props) => {
   const style = {

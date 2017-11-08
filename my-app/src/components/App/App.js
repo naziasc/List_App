@@ -22,8 +22,12 @@ class App extends Component {
   onChange = (event) =>{
     this.setState({term:event.target.value});
   }
-
+//connect to backend
   onSubmit = (event) => {
+    fetch("/api")
+    .then(res => res.json())
+    .then(json => console.log(json));
+//stops this from going to another page
     event.preventDefault();
 
     this.setState({
