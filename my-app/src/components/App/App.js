@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import './App.css';
 //.. will take you up to sections.
 import List from '../List'
+// importing bootstrap for react. each element you use need its own import like Component.
+import AppBar from 'material-ui/AppBar';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+import CircularProgress from 'material-ui/CircularProgress';
+
+
+
 
 class App extends Component {
   constructor(props){
@@ -38,18 +46,30 @@ onComplete = (i) => {
 
     return (
     <div>
-      <form onSubmit={this.onSubmit}>
-        <input
-          value = {this.state.term}
-          onChange= {this.onChange}
-        />
-        <button type="submit">To Do List</button>
-      </form>
-      <List items = {this.state.items}
-        onComplete = {this.onComplete}/>
+  <AppBar
+    title="My to do List" iconClassNameRight="muidocs-icon-navigation-expand-more"
+  />
+  <form onSubmit={this.onSubmit}>
+  <TextField
+      hintText="Hint Text"
+      floatingLabelText="To do list"
+        value = {this.state.term}
+        onChange= {this.onChange}
+
+    />
+    <RaisedButton label="To do" primary={true} type = 'submit' />
+</form>
+
+<List items = {this.state.items} onComplete = {this.onComplete}/>
+
+<CircularProgress />
+<CircularProgress size={60} thickness={7} />
+<CircularProgress size={80} thickness={5} />
     </div>
+
     )
   }
 }
+
 
 export default App;
