@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './App.css';
 //.. will take you up to sections.
 import List from '../List'
@@ -8,72 +8,72 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import CircularProgress from 'material-ui/CircularProgress';
 
-
-
-
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      term:"",
-      items:[]
+      term: "",
+      items: []
     }
   }
-  onChange = (event) =>{
-    this.setState({term:event.target.value});
+  onChange = (event) => {
+    this.setState({term: event.target.value});
   }
-//connect to backend
-  onSubmit = (event) => {
-    fetch("/api")
-    .then(res => res.json())
-    .then(json => console.log(json));
-//stops this from going to another page
+  //connect to backend
+  // onSubmit = (event) => {
+  //   fetch("/api/toDo").then(res => res.json()).then(json => console.log(json));
+  //   //stops this from going to another page
+  //   event.preventDefault();
+  onSubmit = event => {
     event.preventDefault();
+    //fetch
+    fetch('/api/todo', {method: 'POST', headers:{'Accept':'application/json', 'Content-Type': 'application/json'}, body:JSON.stringify({toDo:this.state.term})})
+      .then(response => {
+        console.log(response);
+        return response.json();
+      })
+      .then(data => console.log(data));
 
     this.setState({
-      term:"",
-      items:[...this.state.items,{toDo: this.state.term,complete: false}]
-  })
+      term: "",
+      items: [
+        ...this.state.items, {
+          toDo: this.state.term,
+          complete: false
+        }
+      ]
+    })
   }
 
-onComplete = (i) => {
-  this.setState(prevState => ({
-    items:[...prevState.items.slice(0,i),
-    {toDo:prevState.items[i].toDo,
-    complete:!prevState.items[i].complete
-  },
-    ...prevState.items.slice(i+1)
-  ]
-  }));
-}
+  onComplete = (i) => {
+    this.setState(prevState => ({
+      items: [
+        ...prevState.items.slice(0, i), {
+          toDo: prevState.items[i].toDo,
+          complete: !prevState.items[i].complete
+        },
+        ...prevState.items.slice(i + 1)
+      ]
+    }));
+  }
   render() {
 
-    return (
-    <div>
-  <AppBar
-    title="My to do List" iconClassNameRight="muidocs-icon-navigation-expand-more"
-  />
-  <form onSubmit={this.onSubmit}>
-  <TextField
-      hintText="Hint Text"
-      floatingLabelText="To do list"
-        value = {this.state.term}
-        onChange= {this.onChange}
+    return (<div>
 
-    />
-    <RaisedButton label="To do" primary={true} type = 'submit' />
-</form>
+      <AppBar title="My to do List" iconClassNameRight="muidocs-icon-navigation-expand-more"/>
+      <form onSubmit={this.onSubmit}>
+        <TextField hintText="Hint Text" floatingLabelText="To do list" value={this.state.term} onChange={this.onChange}/>
+        <RaisedButton label="To do" primary={true} type='submit'/>
+      </form>
 
-<List items = {this.state.items} onComplete = {this.onComplete}/>
+      <List items={this.state.items} onComplete={this.onComplete}/>
 
-<CircularProgress />
-<CircularProgress size={60} thickness={7} />
-<CircularProgress size={80} thickness={5} />
-    </div>
+      <CircularProgress/>
+      <CircularProgress size={60} thickness={7}/>
+      <CircularProgress size={80} thickness={5}/>
 
-    )
+    </div>)
   }
 }
-
 
 export default App;
