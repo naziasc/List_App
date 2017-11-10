@@ -1,5 +1,5 @@
 import React from 'react';
- 
+
 const staticStyle = {padding:'10px'}
 const List = (props) => {
   const style = {
@@ -7,7 +7,7 @@ const List = (props) => {
     incomplete: {color:'red', backgroundColor: 'black', float:'right'},
     //all style inside the section as it is toggle between the two only.
   };
-const listStyle = {color:'blue', fontStyle:'italic', fontFamily:'georgia', borderStyle:'dashed', width:'150px'}
+const listStyle = {color:'blue', fontStyle:'italic', fontFamily:'georgia', borderStyle:'dashed', width:'200px'}
 return (<ul>
   {props.items.map((items,index) => (
     <li style ={{...staticStyle,...listStyle}} key={index}>

@@ -16,9 +16,29 @@ class App extends Component {
       items: []
     }
   }
+//once the item is mounted, requesting the route to return all the data
+// from our object we defined as payload(e.g database Postman) and have that data showing rather then an empty object
+componentDidMount(){
+  fetch('/api/todo')
+    .then(response => response.json())
+    .then(data => {
+      this.setState({
+        items: [...data.payload]
+      })
+      // data.payload.map((todo)=> {
+      //   let item = todo.toDo;
+      //   this.setState((prevState) => ({
+      //     items:[...prevState.items,{items:item}]
+      //   }))
+      // })
+    });
+}
+
   onChange = (event) => {
     this.setState({term: event.target.value});
   }
+
+
   //connect to backend
   // onSubmit = (event) => {
   //   fetch("/api/toDo").then(res => res.json()).then(json => console.log(json));
@@ -27,7 +47,9 @@ class App extends Component {
   onSubmit = event => {
     event.preventDefault();
     //fetch
-    fetch('/api/todo', {method: 'POST', headers:{'Accept':'application/json', 'Content-Type': 'application/json'}, body:JSON.stringify({toDo:this.state.term})})
+    fetch('/api/todo', {method: 'POST', headers:{
+    'Accept':'application/json', 'Content-Type': 'application/json'},
+     body:JSON.stringify({toDo:this.state.term})})
       .then(response => {
         console.log(response);
         return response.json();
